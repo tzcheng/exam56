@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
 //    return view('welcome');
-    $data = ['name' => 'tad', 'say' => '嗨！'];
+    $data = ['name' => 'tzcheng', 'say' => '嗨！'];
     return view('welcome', $data);
 
 });
