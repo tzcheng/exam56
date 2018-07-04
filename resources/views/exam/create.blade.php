@@ -14,9 +14,19 @@
              ->control(bs()->radioGroup('enable', [1 => '啟用', 0 => '關閉'])->selectedOption(1)->inline())
             ->showAsRow()
         }} 
-
+        {{ bs()->hidden('user_id', Auth::id()) }}
         {{ bs()->submit('儲存') }}
         {{ bs()->closeForm() }} 
+        
+        @if (count($errors) > 0)
+         @component('bs::alert', ['type' => 'danger'])
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        @endcomponent @endif
+
         @else
             @component('bs::alert', ['type' => 'info', 'animated' => true, 'dismissible' => true, 'data' => ['alert-id' => 40, 'context'
             => 'sample-code']]) 
