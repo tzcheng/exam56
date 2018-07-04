@@ -19,11 +19,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::pattern('exam', '[0-9]+');
 
-Route::get('/home', 'HomeController@index')->name('home');
-// 到 homecontroller 執行index  home代表別名
+
+Route::get('/', 'ExamController@index')->name('index');
+Route::get('/home', 'ExamController@index')->name('home');
 
 Route::get('/exam', 'ExamController@index')->name('exam.index');
 Route::get('/exam/create', 'ExamController@create')->name('exam.create');
+Route::get('/exam/{exam}', 'ExamController@show')->name('exam.show');
 
 Route::post('/exam', 'ExamController@store')->name('exam.store');
+
