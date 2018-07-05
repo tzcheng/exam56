@@ -103,9 +103,8 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Exam $exam)
-{
-    $exam->delete();
-    return redirect()->route('exam.index');
-}
+    public function destroy(Exam $id)
+    {
+        $id->delete();
+    }
 }
