@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exam;
-use App\Http\Requests\ExamRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Topic;
+use Illuminate\Http\Request;
 
-
-class ExamController extends Controller
+class TopicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,21 +14,7 @@ class ExamController extends Controller
      */
     public function index()
     {
-
-        $user = Auth::user();
-        
-        if ($user and $user->can('建立測驗')) {
-            $exams = Exam::orderBy('created_at', 'desc')
-                ->paginate(3);
-        } else {
-            $exams = Exam::where('enable', 1)
-                ->orderBy('created_at', 'desc')
-                ->paginate(2);
-        }
-
-
-        return view('exam.index', compact('exams'));
-
+        //
     }
 
     /**
@@ -42,8 +24,7 @@ class ExamController extends Controller
      */
     public function create()
     {
-        return view('exam.create');
-
+        //
     }
 
     /**
@@ -52,11 +33,10 @@ class ExamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ExamRequest $request)
+    public function store(Request $request)
     {
-
-        Exam::create($request->all());
-        return redirect()->route('exam.index');
+        $topic = Topic::create($request->all());
+        return redirect()->route('exam.show', $topic->exam_id);
 
     }
 
@@ -66,10 +46,9 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Exam $exam)
+    public function show($id)
     {
-
-        return view('exam.show', compact('exam'));
+        //
     }
 
     /**
@@ -78,10 +57,10 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Exam $exam)
+    public function edit(Topic $topic)
     {
-        return view('exam.create', compact('exam'));
-
+        $exam = $topic->exam;
+        return view('exam.show', compact('exam', 'topic'));
     }
 
     /**
@@ -91,10 +70,10 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   public function update(ExamRequest $request, Exam $exam)
+    public function update(Request $request, Topic $topic)
     {
-    $exam->update($request->all());
-    return redirect()->route('exam.show', $exam->id);
+     $topic->update($request->all());
+     return redirect()->route('exam.show', $topic->exam_id);
     }
 
     /**
@@ -103,9 +82,9 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Exam $exam)
-{
-    $exam->delete();
-    return redirect()->route('exam.index');
-}
+    public function destroy(Topic $topic)
+    {
+    $topic->delete();
+    return redirect()->route('exam.show', $topic->exam_id);
+    }
 }
